@@ -1,0 +1,101 @@
+import chromadb
+from dotenv import load_dotenv
+from llama_index.core import StorageContext
+from llama_index.vector_stores.chroma import ChromaVectorStore
+from llama_index.embeddings.ollama import OllamaEmbedding
+from llama_index.core import ListIndex, SimpleDirectoryReader, VectorStoreIndex, Settings
+from llama_index.llms.ollama import Ollama
+from llama_index.core.node_parser import SimpleNodeParser
+
+def configure_llm():
+    """Configure the LLM settings."""
+    Settings.llm = Ollama(
+        model="llama3.1:8b-instruct-fp16",
+        request_timeout=360.0,
+        temperature=0.2,
+        max_token=1000000
+    )
+
+def initialize_chroma_collection(collection_name: str, ephemeral: bool = True):
+    """
+    Initialize a Chroma collection.
+    If 'ephemeral' is True, uses an EphemeralClient; otherwise, you could use PersistentClient.
+    """
+    if ephemeral:
+        chroma_client = chromadb.EphemeralClient()
+    else:
+        # For a persistent client, additional configuration might be needed.
+        chroma_client = chromadb.Client()
+
+    existing_collections = chroma_client.list_collections()
+
+    if collection_name in [collection.name for collection in existing_collections]:
+        chroma_collection = chroma_client.get_collection(collection_name)
+        print(f"Using existing collection '{collection_name}'.")
+    else:
+        chroma_collection = chroma_client.create_collection(collection_name)
+        print(f"Created new collection '{collection_name}'.")
+
+    return chroma_collection
+
+def load_documents(directory_path: str):
+    """Load documents from a specified directory."""
+    return SimpleDirectoryReader(directory_path).load_data()
+
+def create_vector_store(chroma_collection):
+    """Create a ChromaVectorStore from a given Chroma collection."""
+    return ChromaVectorStore(chroma_collection=chroma_collection)
+
+def build_index(documents, vector_store, model_name: str = "snowflake-arctic-embed"):
+    """
+    Build a VectorStoreIndex from the provided documents and vector store.
+    Uses the specified embedding model.
+    """
+    embed_model = OllamaEmbedding(
+        model_name=model_name,
+        ollama_additional_kwargs={"prostatic": 0},
+    )
+
+    storage_context = StorageContext.from_defaults(vector_store=vector_store)
+
+    index = VectorStoreIndex.from_documents(
+        documents,
+        storage_context=storage_context,
+        embed_model=embed_model,
+        transformations=[SimpleNodeParser(chunk_size=512, chunk_overlap=20)]
+    )
+
+    return index
+
+def run_query(index, query: str):
+    """Run a query against the given index."""
+    query_engine = index.as_query_engine()
+    response = query_engine.query(query)
+    return response
+
+if __name__ == "__main__":
+    # Load environment variables
+    load_dotenv()
+
+    # Configure LLM
+    configure_llm()
+
+    # Initialize Chroma collection
+    collection_name = "ravens"
+    chroma_collection = initialize_chroma_collection(collection_name)
+
+    # Load documents
+    documents = load_documents("./data/ravens_web_official_news_10_7_10_14")
+
+    # Create vector store
+    vector_store = create_vector_store(chroma_collection)
+
+    # Build index
+    index = build_index(documents, vector_store)
+
+    # Run a sample query
+    query = "What's new with Baltimore Ravens special teams?"
+    response = run_query(index, query)
+
+    # Print the response
+    print(response)
