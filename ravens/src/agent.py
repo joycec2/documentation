@@ -6,35 +6,40 @@ from llama_index.core import StorageContext
 from llama_index.embeddings.ollama import OllamaEmbedding
 import chromadb
 
+from langchain_ollama.llms import OllamaLLM
+from langchain_ollama import ChatOllama
+
+from utils import extract_numbered_questions
+
 class BaseAgent:
-    def __init__(self, index: VectorStoreIndex, model: Ollama):
+    def __init__(self, prompt_template: str, model):
         self.model = model
-        self.index = index
+        self.template = prompt_template
 
     def query(self, query: str):
         raise NotImplementedError("Subclasses should implement this!")
     
-    def get_index(self):
-        return self.index
-    
     def get_model(self):
         return self.model
+    
+    def get_template(self):
+        return self.template
 
 class ReasoningAgent(BaseAgent):
-    def __init__(self, index: VectorStoreIndex, model: Ollama):
-        super().__init__(index, model)
+    def __init__(self, model):
+        super().__init__(model)
 
+    # we now use langchain model
     def query(self, query: str):
-        steps = self._decompose_query(query)
-        responses = [self.index.query(step) for step in steps]
-        return "\n".join(responses)
-
-    def _decompose_query(self, query: str):
-        return [query]
+        chain = self.template | self.model
+        result = chain.invoke({"query_str": query})
+        content = result.content
+        questions = extract_numbered_questions(content)
+        return questions
 
 class RAGAgent(BaseAgent):
     def __init__(self, index: VectorStoreIndex, model: Ollama, vectors: ChromaVectorStore):
-        super().__init__(index, model)
+        super().__init__(model)
         self.vectors = vectors
 
     def query(self, query: str):
@@ -43,7 +48,7 @@ class RAGAgent(BaseAgent):
 
 class Text2SQLAgent(BaseAgent):
     def __init__(self, index: VectorStoreIndex, model: Ollama, query_engine):
-        super().__init__(index, model)
+        super().__init__(model)
         self.query_engine = query_engine
 
     def query(self, query: str):
