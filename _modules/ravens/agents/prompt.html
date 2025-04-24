@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ravens.agents.prompt &mdash; Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline 4.24.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=013bf35d"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ravens.agents.prompt</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ravens.agents.prompt</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Defines structured prompting strategies using LLMs for various use cases, including</span>
+<span class="sd">retrieval-augmented generation, SQL query formulation, reasoning, and validation.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    - BasePrompt: Abstract class for managing prompt templates.</span>
+<span class="sd">    - RAGPrompt: Integrates retrieved context into the prompt.</span>
+<span class="sd">    - Text2SQLPrompt: Structures prompts for SQL generation.</span>
+<span class="sd">    - ReasoningPrompt: Guides LLM through logic using examples.</span>
+<span class="sd">    - ValidationPrompt: Applies rule-based checking to LLM outputs.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span>
+
+<div class="viewcode-block" id="BasePrompt">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.BasePrompt">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BasePrompt</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for prompt construction and formatting.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        get_template(): Returns the base prompt string. Must be implemented by subclasses.</span>
+<span class="sd">        format(query): Formats a query using the prompt template.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_template</span><span class="p">()</span>
+
+<div class="viewcode-block" id="BasePrompt.get_template">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.BasePrompt.get_template">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_template</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the prompt template string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses must implement get_template().&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BasePrompt.format">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.BasePrompt.format">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format the given query string using the prompt template.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The user query to embed in the template.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted prompt.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">PromptTemplate</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="p">,</span> <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query_str</span><span class="o">=</span><span class="n">query</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RAGPrompt">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.RAGPrompt">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RAGPrompt</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt class for retrieval-augmented generation (RAG).</span>
+
+<span class="sd">    Adds contextual documents to the query for more grounded generation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="RAGPrompt.get_template">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.RAGPrompt.get_template">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_template</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s2">&quot;You are a helpful assistant with access to retrieved documents.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Answer the user question using only the context below.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Context:</span><span class="se">\n</span><span class="si">{query_str}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Answer:&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RAGPrompt.format_with_context">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.RAGPrompt.format_with_context">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_with_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">context_docs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format the prompt with both query and retrieved context.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The user question.</span>
+<span class="sd">            context_docs (list[str]): A list of context strings.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A full prompt including embedded context.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context_block</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context_docs</span><span class="p">)</span>
+        <span class="n">full_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">context_block</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">PromptTemplate</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="p">,</span> <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query_str</span><span class="o">=</span><span class="n">full_query</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Text2SQLPrompt">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.Text2SQLPrompt">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Text2SQLPrompt</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt class for natural language to SQL translation.</span>
+
+<span class="sd">    Includes schema and example SQL conversions to guide generation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">examples</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">examples</span> <span class="o">=</span> <span class="n">examples</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Text2SQLPrompt.get_template">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.Text2SQLPrompt.get_template">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_template</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s2">&quot;You are an expert Text-to-SQL model.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Given a schema and user question, write a correct SQL query.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="si">{query_str}</span><span class="se">\n\n</span><span class="s2">SQL:&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Text2SQLPrompt.format_with_schema">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.Text2SQLPrompt.format_with_schema">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_with_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format the query with schema and examples included.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The user&#39;s natural language query.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A complete prompt with schema and examples.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">examples_block</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">examples</span><span class="p">)</span>
+        <span class="n">full_query</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;-- Schema:</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;-- Examples:</span><span class="se">\n</span><span class="si">{</span><span class="n">examples_block</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;-- User Query:</span><span class="se">\n</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">PromptTemplate</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="p">,</span> <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query_str</span><span class="o">=</span><span class="n">full_query</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ReasoningPrompt">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.ReasoningPrompt">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReasoningPrompt</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt class for structured reasoning using examples.</span>
+
+<span class="sd">    Designed for multi-step inference and logical breakdown.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">examples</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">examples</span> <span class="o">=</span> <span class="n">examples</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ReasoningPrompt.get_template">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.ReasoningPrompt.get_template">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_template</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s2">&quot;You are an analytical assistant helping to break down complex problems.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Use logical reasoning based on the examples provided and answer the question below.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="si">{query_str}</span><span class="se">\n\n</span><span class="s2">Answer:&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReasoningPrompt.format_with_examples">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.ReasoningPrompt.format_with_examples">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_with_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format the query with step-by-step reasoning examples.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The complex question to answer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Prompt with embedded reasoning examples.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">examples_block</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Example </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">examples</span><span class="p">))</span>
+        <span class="n">full_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">examples_block</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Question:</span><span class="se">\n</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">PromptTemplate</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="p">,</span> <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query_str</span><span class="o">=</span><span class="n">full_query</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ValidationPrompt">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.ValidationPrompt">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ValidationPrompt</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt class for validating responses based on rule compliance.</span>
+
+<span class="sd">    Ensures responses meet criteria for accuracy and format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rules</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rules</span> <span class="o">=</span> <span class="n">rules</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ValidationPrompt.get_template">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.ValidationPrompt.get_template">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_template</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s2">&quot;You are a validation assistant that ensures answers meet the following rules.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Check if the response below satisfies each rule and explain any violations.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="si">{query_str}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ValidationPrompt.format_with_rules">
+<a class="viewcode-back" href="../../../ravens.agents.html#ravens.agents.prompt.ValidationPrompt.format_with_rules">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_with_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format the prompt with validation rules and a user response.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The generated response to evaluate.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A prompt including the rule checklist and response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rules_block</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">rule</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="p">)</span>
+        <span class="n">full_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Validation Rules:</span><span class="se">\n</span><span class="si">{</span><span class="n">rules_block</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Response to Validate:</span><span class="se">\n</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">PromptTemplate</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="p">,</span> <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query_str</span><span class="o">=</span><span class="n">full_query</span><span class="p">)</span></div>
+</div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Johns Hopkins University Sports Analytics Research Group.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

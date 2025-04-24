@@ -1,0 +1,7 @@
+model module
+============
+
+.. automodule:: ravens.agents.model
+   :members:
+   :undoc-members:
+   :show-inheritance:

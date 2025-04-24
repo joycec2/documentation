@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ravens.agents package &mdash; Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline 4.24.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=013bf35d"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ravens.agents package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ravens.agents.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ravens-agents-package">
+<h1>ravens.agents package<a class="headerlink" href="#ravens-agents-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-ravens.agents.agent">
+<span id="ravens-agents-agent-module"></span><h2>ravens.agents.agent module<a class="headerlink" href="#module-ravens.agents.agent" title="Link to this heading"></a></h2>
+<p>Defines various types of agents for querying, reasoning, and interacting with vector databases
+or SQL engines. Each agent extends BaseAgent and implements custom logic in the <cite>query</cite> method.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><ul class="simple">
+<li><p>BaseAgent: Abstract class defining the interface for all agents.</p></li>
+<li><p>ReasoningAgent: Performs logical reasoning and multi-step inference.</p></li>
+<li><p>RAGAgent: Uses vector databases and retrieval-augmented generation.</p></li>
+<li><p>Text2SQLAgent: Converts natural language into SQL and queries databases.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.agent.BaseAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.agent.</span></span><span class="sig-name descname"><span class="pre">BaseAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/agent.html#BaseAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.agent.BaseAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract base class for agents.</p>
+<p>Handles shared attributes like the model and prompt template, and enforces implementation of the <cite>query</cite> method.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.agent.BaseAgent.get_model">
+<span class="sig-name descname"><span class="pre">get_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/agent.html#BaseAgent.get_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.agent.BaseAgent.get_model" title="Link to this definition"></a></dt>
+<dd><p>Return the model associated with this agent.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.agent.BaseAgent.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/agent.html#BaseAgent.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.agent.BaseAgent.get_template" title="Link to this definition"></a></dt>
+<dd><p>Return the prompt template used by this agent.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.agent.BaseAgent.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/agent.html#BaseAgent.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.agent.BaseAgent.query" title="Link to this definition"></a></dt>
+<dd><p>Abstract method to perform a query.</p>
+<p>Must be implemented by subclasses.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.agent.RAGAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.agent.</span></span><span class="sig-name descname"><span class="pre">RAGAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">llama_index.core.VectorStoreIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">llama_index.llms.ollama.Ollama</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vectors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">llama_index.vector_stores.chroma.ChromaVectorStore</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/agent.html#RAGAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.agent.RAGAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ravens.agents.agent.BaseAgent" title="ravens.agents.agent.BaseAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></a></p>
+<p>Retrieval-Augmented Generation agent.</p>
+<p>Retrieves relevant context using vector embeddings and generates responses using a language model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.agent.RAGAgent.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/agent.html#RAGAgent.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.agent.RAGAgent.query" title="Link to this definition"></a></dt>
+<dd><p>Query the index and return a response based on retrieved context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- The user's query.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The model's synthesized response based on context.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.agent.ReasoningAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.agent.</span></span><span class="sig-name descname"><span class="pre">ReasoningAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/agent.html#ReasoningAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.agent.ReasoningAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ravens.agents.agent.BaseAgent" title="ravens.agents.agent.BaseAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></a></p>
+<p>Agent that performs logical reasoning and multi-step inference.</p>
+<p>Extends BaseAgent and utilizes a LangChain-style pipeline to extract numbered responses.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.agent.ReasoningAgent.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/agent.html#ReasoningAgent.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.agent.ReasoningAgent.query" title="Link to this definition"></a></dt>
+<dd><p>Execute a multi-step reasoning query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- The user input or problem to reason about.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of extracted numbered answers or steps.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.agent.Text2SQLAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.agent.</span></span><span class="sig-name descname"><span class="pre">Text2SQLAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">llama_index.core.VectorStoreIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">llama_index.llms.ollama.Ollama</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_engine</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/agent.html#Text2SQLAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.agent.Text2SQLAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ravens.agents.agent.BaseAgent" title="ravens.agents.agent.BaseAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></a></p>
+<p>Agent that converts natural language into SQL queries.</p>
+<p>Interfaces with a SQL engine to execute the queries and return results.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.agent.Text2SQLAgent.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/agent.html#Text2SQLAgent.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.agent.Text2SQLAgent.query" title="Link to this definition"></a></dt>
+<dd><p>Convert a natural language query to SQL and execute it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- Natural language query.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Result from the executed SQL query.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>result</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ravens.agents.model">
+<span id="ravens-agents-model-module"></span><h2>ravens.agents.model module<a class="headerlink" href="#module-ravens.agents.model" title="Link to this heading"></a></h2>
+<p>Provides wrapper classes for configuring Ollama language models using both
+LlamaIndex and LangChain interfaces.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><ul class="simple">
+<li><p>llamaindex_OllamaLLM: Configures and wraps LlamaIndex's Ollama integration.</p></li>
+<li><p>langchain_OllamaLLM: Configures and wraps LangChain's Ollama integration.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.model.EmbeddingService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.model.</span></span><span class="sig-name descname"><span class="pre">EmbeddingService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'nomic-embed-text'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/model.html#EmbeddingService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.model.EmbeddingService" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper around OllamaEmbedding for generating vector embeddings from text.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.model.EmbeddingService.get_text_embedding">
+<span class="sig-name descname"><span class="pre">get_text_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/model.html#EmbeddingService.get_text_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.model.EmbeddingService.get_text_embedding" title="Link to this definition"></a></dt>
+<dd><p>Generate a vector embedding for the given text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) -- Input text to embed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Vector representation of the input text.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.model.VectorStore">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.model.</span></span><span class="sig-name descname"><span class="pre">VectorStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persist_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./chroma_db'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/model.html#VectorStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.model.VectorStore" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper around ChromaVectorStore for storing and querying embedded vectors.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.model.VectorStore.add_documents">
+<span class="sig-name descname"><span class="pre">add_documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">documents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/model.html#VectorStore.add_documents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.model.VectorStore.add_documents" title="Link to this definition"></a></dt>
+<dd><p>Add documents with text and metadata to the vector store.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>documents</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) -- List of documents with 'text' and optional 'metadata'.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.model.VectorStore.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding_service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ravens.agents.model.EmbeddingService" title="ravens.agents.model.EmbeddingService"><span class="pre">EmbeddingService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/model.html#VectorStore.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.model.VectorStore.query" title="Link to this definition"></a></dt>
+<dd><p>Query the vector store with embedded text and return top-k similar documents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) -- The text to embed and search with.</p></li>
+<li><p><strong>embedding_service</strong> (<a class="reference internal" href="#ravens.agents.model.EmbeddingService" title="ravens.agents.model.EmbeddingService"><em>EmbeddingService</em></a>) -- The embedding service instance.</p></li>
+<li><p><strong>top_k</strong> (<em>int</em>) -- Number of top documents to retrieve.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Matched documents with similarity scores.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.model.langchain_OllamaLLM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.model.</span></span><span class="sig-name descname"><span class="pre">langchain_OllamaLLM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">360.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/model.html#langchain_OllamaLLM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.model.langchain_OllamaLLM" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper for configuring a LangChain Ollama model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_name</strong> (<em>str</em>) -- The name of the model to use.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) -- Sampling temperature for the model.</p></li>
+<li><p><strong>request_timeout</strong> (<em>float</em>) -- Timeout for API requests.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.model.langchain_OllamaLLM.configure_llm">
+<span class="sig-name descname"><span class="pre">configure_llm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">360.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/model.html#langchain_OllamaLLM.configure_llm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.model.langchain_OllamaLLM.configure_llm" title="Link to this definition"></a></dt>
+<dd><p>Configure the Ollama model using LangChain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Configured LangChain Ollama model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ChatOllama</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.model.llamaindex_OllamaLLM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.model.</span></span><span class="sig-name descname"><span class="pre">llamaindex_OllamaLLM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2048</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">360.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/model.html#llamaindex_OllamaLLM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.model.llamaindex_OllamaLLM" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper for configuring a LlamaIndex Ollama model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_name</strong> (<em>str</em>) -- The name of the model to use.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) -- Sampling temperature for the model.</p></li>
+<li><p><strong>max_token</strong> (<em>int</em>) -- Maximum number of tokens to generate.</p></li>
+<li><p><strong>request_timeout</strong> (<em>float</em>) -- Timeout for API requests.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.model.llamaindex_OllamaLLM.configure_llm">
+<span class="sig-name descname"><span class="pre">configure_llm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2048</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">360.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/model.html#llamaindex_OllamaLLM.configure_llm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.model.llamaindex_OllamaLLM.configure_llm" title="Link to this definition"></a></dt>
+<dd><p>Configure the Ollama model using LlamaIndex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Configured LlamaIndex Ollama model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ollama</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ravens.agents.prompt">
+<span id="ravens-agents-prompt-module"></span><h2>ravens.agents.prompt module<a class="headerlink" href="#module-ravens.agents.prompt" title="Link to this heading"></a></h2>
+<p>Defines structured prompting strategies using LLMs for various use cases, including
+retrieval-augmented generation, SQL query formulation, reasoning, and validation.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><ul class="simple">
+<li><p>BasePrompt: Abstract class for managing prompt templates.</p></li>
+<li><p>RAGPrompt: Integrates retrieved context into the prompt.</p></li>
+<li><p>Text2SQLPrompt: Structures prompts for SQL generation.</p></li>
+<li><p>ReasoningPrompt: Guides LLM through logic using examples.</p></li>
+<li><p>ValidationPrompt: Applies rule-based checking to LLM outputs.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.prompt.BasePrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">BasePrompt</span></span><a class="reference internal" href="_modules/ravens/agents/prompt.html#BasePrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.BasePrompt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract base class for prompt construction and formatting.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.prompt.BasePrompt.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/prompt.html#BasePrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.BasePrompt.get_template" title="Link to this definition"></a></dt>
+<dd><p>Returns the base prompt string. Must be implemented by subclasses.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.prompt.BasePrompt.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/prompt.html#BasePrompt.format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.BasePrompt.format" title="Link to this definition"></a></dt>
+<dd><p>Formats a query using the prompt template.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/prompt.html#BasePrompt.format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Format the given query string using the prompt template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- The user query to embed in the template.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A formatted prompt.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/ravens/agents/prompt.html#BasePrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Returns the prompt template string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.prompt.RAGPrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">RAGPrompt</span></span><a class="reference internal" href="_modules/ravens/agents/prompt.html#RAGPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.RAGPrompt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ravens.agents.prompt.BasePrompt" title="ravens.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
+<p>Prompt class for retrieval-augmented generation (RAG).</p>
+<p>Adds contextual documents to the query for more grounded generation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.prompt.RAGPrompt.format_with_context">
+<span class="sig-name descname"><span class="pre">format_with_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context_docs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/prompt.html#RAGPrompt.format_with_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.RAGPrompt.format_with_context" title="Link to this definition"></a></dt>
+<dd><p>Format the prompt with both query and retrieved context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) -- The user question.</p></li>
+<li><p><strong>context_docs</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) -- A list of context strings.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A full prompt including embedded context.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.prompt.RAGPrompt.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/ravens/agents/prompt.html#RAGPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.RAGPrompt.get_template" title="Link to this definition"></a></dt>
+<dd><p>Returns the prompt template string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.prompt.ReasoningPrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">ReasoningPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">examples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/prompt.html#ReasoningPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.ReasoningPrompt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ravens.agents.prompt.BasePrompt" title="ravens.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
+<p>Prompt class for structured reasoning using examples.</p>
+<p>Designed for multi-step inference and logical breakdown.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.prompt.ReasoningPrompt.format_with_examples">
+<span class="sig-name descname"><span class="pre">format_with_examples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/prompt.html#ReasoningPrompt.format_with_examples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.ReasoningPrompt.format_with_examples" title="Link to this definition"></a></dt>
+<dd><p>Format the query with step-by-step reasoning examples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- The complex question to answer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Prompt with embedded reasoning examples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.prompt.ReasoningPrompt.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/ravens/agents/prompt.html#ReasoningPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.ReasoningPrompt.get_template" title="Link to this definition"></a></dt>
+<dd><p>Returns the prompt template string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.prompt.Text2SQLPrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">Text2SQLPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">examples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/prompt.html#Text2SQLPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.Text2SQLPrompt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ravens.agents.prompt.BasePrompt" title="ravens.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
+<p>Prompt class for natural language to SQL translation.</p>
+<p>Includes schema and example SQL conversions to guide generation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.prompt.Text2SQLPrompt.format_with_schema">
+<span class="sig-name descname"><span class="pre">format_with_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/prompt.html#Text2SQLPrompt.format_with_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.Text2SQLPrompt.format_with_schema" title="Link to this definition"></a></dt>
+<dd><p>Format the query with schema and examples included.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- The user's natural language query.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A complete prompt with schema and examples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.prompt.Text2SQLPrompt.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/ravens/agents/prompt.html#Text2SQLPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.Text2SQLPrompt.get_template" title="Link to this definition"></a></dt>
+<dd><p>Returns the prompt template string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.prompt.ValidationPrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">ValidationPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/prompt.html#ValidationPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.ValidationPrompt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ravens.agents.prompt.BasePrompt" title="ravens.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
+<p>Prompt class for validating responses based on rule compliance.</p>
+<p>Ensures responses meet criteria for accuracy and format.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.prompt.ValidationPrompt.format_with_rules">
+<span class="sig-name descname"><span class="pre">format_with_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/prompt.html#ValidationPrompt.format_with_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.ValidationPrompt.format_with_rules" title="Link to this definition"></a></dt>
+<dd><p>Format the prompt with validation rules and a user response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- The generated response to evaluate.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A prompt including the rule checklist and response.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.prompt.ValidationPrompt.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/ravens/agents/prompt.html#ValidationPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.prompt.ValidationPrompt.get_template" title="Link to this definition"></a></dt>
+<dd><p>Returns the prompt template string.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ravens.agents.service">
+<span id="ravens-agents-service-module"></span><h2>ravens.agents.service module<a class="headerlink" href="#module-ravens.agents.service" title="Link to this heading"></a></h2>
+<p>Coordinates agent interaction to process a user query into decomposed logic steps,
+retrieves context using RAG, translates into SQL, and returns results in structured form.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><ul class="simple">
+<li><p>Service: Manages and runs a multi-agent query pipeline.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="ravens.agents.service.Service">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ravens.agents.service.</span></span><span class="sig-name descname"><span class="pre">Service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_engine</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/service.html#Service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.service.Service" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Orchestrates reasoning, context retrieval, and SQL translation for user queries.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ravens.agents.service.Service.reasoning_agent">
+<span class="sig-name descname"><span class="pre">reasoning_agent</span></span><a class="headerlink" href="#ravens.agents.service.Service.reasoning_agent" title="Link to this definition"></a></dt>
+<dd><p>Agent for query decomposition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ravens.agents.agent.ReasoningAgent" title="ravens.agents.agent.ReasoningAgent">ReasoningAgent</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ravens.agents.service.Service.text2sql_agent">
+<span class="sig-name descname"><span class="pre">text2sql_agent</span></span><a class="headerlink" href="#ravens.agents.service.Service.text2sql_agent" title="Link to this definition"></a></dt>
+<dd><p>Agent for SQL query generation and execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ravens.agents.agent.Text2SQLAgent" title="ravens.agents.agent.Text2SQLAgent">Text2SQLAgent</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ravens.agents.service.Service.rag_agent">
+<span class="sig-name descname"><span class="pre">rag_agent</span></span><a class="headerlink" href="#ravens.agents.service.Service.rag_agent" title="Link to this definition"></a></dt>
+<dd><p>Agent for context retrieval using embeddings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ravens.agents.agent.RAGAgent" title="ravens.agents.agent.RAGAgent">RAGAgent</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ravens.agents.service.Service.run_query">
+<span class="sig-name descname"><span class="pre">run_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ravens/agents/service.html#Service.run_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.service.Service.run_query" title="Link to this definition"></a></dt>
+<dd><p>Executes the query pipeline and returns structured output.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">run_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/ravens/agents/service.html#Service.run_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Execute the query processing pipeline.</p>
+<p>Decomposes the user query, retrieves relevant documents, generates SQL,
+executes the query, and returns all results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_query</strong> (<em>str</em>) -- The original natural language query.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing:</dt><dd><ul class="simple">
+<li><p>original_query (str)</p></li>
+<li><p>subqueries (list[str])</p></li>
+<li><p>retrieved_contexts (list[str])</p></li>
+<li><p>sql_queries (list[str])</p></li>
+<li><p>results (list[Any])</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ravens.agents.utils">
+<span id="ravens-agents-utils-module"></span><h2>ravens.agents.utils module<a class="headerlink" href="#module-ravens.agents.utils" title="Link to this heading"></a></h2>
+<p>Provides utility functions to support text parsing, including logic to extract
+numbered questions from LLM responses.</p>
+<dl class="simple">
+<dt>Functions:</dt><dd><ul class="simple">
+<li><p>extract_numbered_questions: Extracts ordered question strings from a given text.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="ravens.agents.utils.extract_numbered_questions">
+<span class="sig-prename descclassname"><span class="pre">ravens.agents.utils.</span></span><span class="sig-name descname"><span class="pre">extract_numbered_questions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'&lt;/think&gt;'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/ravens/agents/utils.html#extract_numbered_questions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ravens.agents.utils.extract_numbered_questions" title="Link to this definition"></a></dt>
+<dd><p>Extracts numbered questions from the given content after the specified marker.</p>
+<p>Useful for parsing multi-step LLM responses that contain ordered steps or subqueries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>content</strong> (<em>str</em>) -- The complete string to extract questions from.</p></li>
+<li><p><strong>marker</strong> (<em>str</em><em>, </em><em>optional</em>) -- Substring indicating where to begin extraction.
+Defaults to &quot;&lt;/think&gt;&quot;.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of cleaned, ordered question strings.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-ravens.agents">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ravens.agents" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Johns Hopkins University Sports Analytics Research Group.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

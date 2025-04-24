@@ -1,0 +1,7 @@
+prompt module
+=============
+
+.. automodule:: ravens.agents.prompt
+   :members:
+   :undoc-members:
+   :show-inheritance:
