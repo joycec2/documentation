@@ -1,0 +1,174 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>llm.agents.service &mdash; Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline 4.24.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../static/documentation_options.js?v=013bf35d"></script>
+      <script src="../../../static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">llm.agents.service</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for llm.agents.service</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Coordinates agent interaction to process a user query into decomposed logic steps,</span>
+<span class="sd">retrieves context using RAG, translates into SQL, and returns results in structured form.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    - Service: Manages and runs a multi-agent query pipeline.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm.agents.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReasoningAgent</span><span class="p">,</span> <span class="n">Text2SQLAgent</span><span class="p">,</span> <span class="n">RAGAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm.agents.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmbeddingService</span><span class="p">,</span> <span class="n">VectorStore</span>
+
+<div class="viewcode-block" id="Service">
+<a class="viewcode-back" href="../../../service.html#llm.agents.service.Service">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Service</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Orchestrates reasoning, context retrieval, and SQL translation for user queries.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        reasoning_agent (ReasoningAgent): Agent for query decomposition.</span>
+<span class="sd">        text2sql_agent (Text2SQLAgent): Agent for SQL query generation and execution.</span>
+<span class="sd">        rag_agent (RAGAgent): Agent for context retrieval using embeddings.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        run_query(user_query): Executes the query pipeline and returns structured output.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">vectors</span><span class="p">,</span> <span class="n">query_engine</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the service with agents for reasoning, RAG, and SQL.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model: LLM or model chain used by agents.</span>
+<span class="sd">            index: VectorStoreIndex used for retrieval and search.</span>
+<span class="sd">            vectors: Vector store used by RAG agent.</span>
+<span class="sd">            query_engine: SQL execution interface used by the Text2SQL agent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reasoning_agent</span> <span class="o">=</span> <span class="n">ReasoningAgent</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text2sql_agent</span> <span class="o">=</span> <span class="n">Text2SQLAgent</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">query_engine</span><span class="o">=</span><span class="n">query_engine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rag_agent</span> <span class="o">=</span> <span class="n">RAGAgent</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">vectors</span><span class="o">=</span><span class="n">vectors</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Service.run_query">
+<a class="viewcode-back" href="../../../service.html#llm.agents.service.Service.run_query">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute the query processing pipeline.</span>
+
+<span class="sd">        Decomposes the user query, retrieves relevant documents, generates SQL,</span>
+<span class="sd">        executes the query, and returns all results.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_query (str): The original natural language query.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing:</span>
+<span class="sd">                - original_query (str)</span>
+<span class="sd">                - subqueries (list[str])</span>
+<span class="sd">                - retrieved_contexts (list[str])</span>
+<span class="sd">                - sql_queries (list[str])</span>
+<span class="sd">                - results (list[Any])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reasoning_steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reasoning_agent</span><span class="o">.</span><span class="n">_decompose_query</span><span class="p">(</span><span class="n">user_query</span><span class="p">)</span>
+        <span class="n">rag_contexts</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rag_agent</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">step</span><span class="p">)</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">reasoning_steps</span><span class="p">]</span>
+        <span class="n">sql_queries</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">text2sql_agent</span><span class="o">.</span><span class="n">_nl_to_sql</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span> <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="n">rag_contexts</span><span class="p">]</span>
+        <span class="n">final_results</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">text2sql_agent</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span> <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="n">rag_contexts</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;original_query&quot;</span><span class="p">:</span> <span class="n">user_query</span><span class="p">,</span>
+            <span class="s2">&quot;subqueries&quot;</span><span class="p">:</span> <span class="n">reasoning_steps</span><span class="p">,</span>
+            <span class="s2">&quot;retrieved_contexts&quot;</span><span class="p">:</span> <span class="n">rag_contexts</span><span class="p">,</span>
+            <span class="s2">&quot;sql_queries&quot;</span><span class="p">:</span> <span class="n">sql_queries</span><span class="p">,</span>
+            <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">final_results</span>
+        <span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Johns Hopkins University Sports Analytics Research Group.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
