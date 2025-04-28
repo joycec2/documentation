@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>prompt module &mdash; Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline 4.24.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=013bf35d"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="service module" href="service.html" />
+    <link rel="prev" title="model module" href="model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="agent.html">agent module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html">model module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">prompt module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#llm.agents.prompt.BasePrompt"><code class="docutils literal notranslate"><span class="pre">BasePrompt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#llm.agents.prompt.BasePrompt.get_template"><code class="docutils literal notranslate"><span class="pre">BasePrompt.get_template()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#llm.agents.prompt.BasePrompt.format"><code class="docutils literal notranslate"><span class="pre">BasePrompt.format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">BasePrompt.format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">BasePrompt.get_template()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#llm.agents.prompt.RAGPrompt"><code class="docutils literal notranslate"><span class="pre">RAGPrompt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#llm.agents.prompt.RAGPrompt.format_with_context"><code class="docutils literal notranslate"><span class="pre">RAGPrompt.format_with_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#llm.agents.prompt.RAGPrompt.get_template"><code class="docutils literal notranslate"><span class="pre">RAGPrompt.get_template()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#llm.agents.prompt.ReasoningPrompt"><code class="docutils literal notranslate"><span class="pre">ReasoningPrompt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#llm.agents.prompt.ReasoningPrompt.format_with_examples"><code class="docutils literal notranslate"><span class="pre">ReasoningPrompt.format_with_examples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#llm.agents.prompt.ReasoningPrompt.get_template"><code class="docutils literal notranslate"><span class="pre">ReasoningPrompt.get_template()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#llm.agents.prompt.Text2SQLPrompt"><code class="docutils literal notranslate"><span class="pre">Text2SQLPrompt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#llm.agents.prompt.Text2SQLPrompt.format_with_schema"><code class="docutils literal notranslate"><span class="pre">Text2SQLPrompt.format_with_schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#llm.agents.prompt.Text2SQLPrompt.get_template"><code class="docutils literal notranslate"><span class="pre">Text2SQLPrompt.get_template()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#llm.agents.prompt.ValidationPrompt"><code class="docutils literal notranslate"><span class="pre">ValidationPrompt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#llm.agents.prompt.ValidationPrompt.format_with_rules"><code class="docutils literal notranslate"><span class="pre">ValidationPrompt.format_with_rules()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#llm.agents.prompt.ValidationPrompt.get_template"><code class="docutils literal notranslate"><span class="pre">ValidationPrompt.get_template()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="service.html">service module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">utils module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">prompt module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/prompt.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-llm.agents.prompt">
+<span id="prompt-module"></span><h1>prompt module<a class="headerlink" href="#module-llm.agents.prompt" title="Link to this heading"></a></h1>
+<p>Defines structured prompting strategies using LLMs for various use cases, including
+retrieval-augmented generation, SQL query formulation, reasoning, and validation.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><ul class="simple">
+<li><p>BasePrompt: Abstract class for managing prompt templates.</p></li>
+<li><p>RAGPrompt: Integrates retrieved context into the prompt.</p></li>
+<li><p>Text2SQLPrompt: Structures prompts for SQL generation.</p></li>
+<li><p>ReasoningPrompt: Guides LLM through logic using examples.</p></li>
+<li><p>ValidationPrompt: Applies rule-based checking to LLM outputs.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="llm.agents.prompt.BasePrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">BasePrompt</span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#BasePrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.BasePrompt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract base class for prompt construction and formatting.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="llm.agents.prompt.BasePrompt.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#BasePrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.BasePrompt.get_template" title="Link to this definition"></a></dt>
+<dd><p>Returns the base prompt string. Must be implemented by subclasses.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="llm.agents.prompt.BasePrompt.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#BasePrompt.format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.BasePrompt.format" title="Link to this definition"></a></dt>
+<dd><p>Formats a query using the prompt template.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#BasePrompt.format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Format the given query string using the prompt template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- The user query to embed in the template.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A formatted prompt.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#BasePrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Returns the prompt template string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="llm.agents.prompt.RAGPrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">RAGPrompt</span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#RAGPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.RAGPrompt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#llm.agents.prompt.BasePrompt" title="llm.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
+<p>Prompt class for retrieval-augmented generation (RAG).</p>
+<p>Adds contextual documents to the query for more grounded generation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="llm.agents.prompt.RAGPrompt.format_with_context">
+<span class="sig-name descname"><span class="pre">format_with_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context_docs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#RAGPrompt.format_with_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.RAGPrompt.format_with_context" title="Link to this definition"></a></dt>
+<dd><p>Format the prompt with both query and retrieved context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) -- The user question.</p></li>
+<li><p><strong>context_docs</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) -- A list of context strings.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A full prompt including embedded context.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="llm.agents.prompt.RAGPrompt.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#RAGPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.RAGPrompt.get_template" title="Link to this definition"></a></dt>
+<dd><p>Returns the prompt template string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="llm.agents.prompt.ReasoningPrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">ReasoningPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">examples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#ReasoningPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ReasoningPrompt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#llm.agents.prompt.BasePrompt" title="llm.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
+<p>Prompt class for structured reasoning using examples.</p>
+<p>Designed for multi-step inference and logical breakdown.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="llm.agents.prompt.ReasoningPrompt.format_with_examples">
+<span class="sig-name descname"><span class="pre">format_with_examples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#ReasoningPrompt.format_with_examples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ReasoningPrompt.format_with_examples" title="Link to this definition"></a></dt>
+<dd><p>Format the query with step-by-step reasoning examples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- The complex question to answer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Prompt with embedded reasoning examples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="llm.agents.prompt.ReasoningPrompt.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#ReasoningPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ReasoningPrompt.get_template" title="Link to this definition"></a></dt>
+<dd><p>Returns the prompt template string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="llm.agents.prompt.Text2SQLPrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">Text2SQLPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">examples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#Text2SQLPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.Text2SQLPrompt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#llm.agents.prompt.BasePrompt" title="llm.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
+<p>Prompt class for natural language to SQL translation.</p>
+<p>Includes schema and example SQL conversions to guide generation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="llm.agents.prompt.Text2SQLPrompt.format_with_schema">
+<span class="sig-name descname"><span class="pre">format_with_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#Text2SQLPrompt.format_with_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.Text2SQLPrompt.format_with_schema" title="Link to this definition"></a></dt>
+<dd><p>Format the query with schema and examples included.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- The user's natural language query.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A complete prompt with schema and examples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="llm.agents.prompt.Text2SQLPrompt.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#Text2SQLPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.Text2SQLPrompt.get_template" title="Link to this definition"></a></dt>
+<dd><p>Returns the prompt template string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="llm.agents.prompt.ValidationPrompt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">ValidationPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#ValidationPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ValidationPrompt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#llm.agents.prompt.BasePrompt" title="llm.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
+<p>Prompt class for validating responses based on rule compliance.</p>
+<p>Ensures responses meet criteria for accuracy and format.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="llm.agents.prompt.ValidationPrompt.format_with_rules">
+<span class="sig-name descname"><span class="pre">format_with_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#ValidationPrompt.format_with_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ValidationPrompt.format_with_rules" title="Link to this definition"></a></dt>
+<dd><p>Format the prompt with validation rules and a user response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) -- The generated response to evaluate.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A prompt including the rule checklist and response.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="llm.agents.prompt.ValidationPrompt.get_template">
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#ValidationPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ValidationPrompt.get_template" title="Link to this definition"></a></dt>
+<dd><p>Returns the prompt template string.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="model.html" class="btn btn-neutral float-left" title="model module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="service.html" class="btn btn-neutral float-right" title="service module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Johns Hopkins University Sports Analytics Research Group.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

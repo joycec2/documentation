@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>llm.agents.agent &mdash; Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline 4.24.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=013bf35d"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">llm.agents.agent</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for llm.agents.agent</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Defines various types of agents for querying, reasoning, and interacting with vector databases</span>
+<span class="sd">or SQL engines. Each agent extends BaseAgent and implements custom logic in the `query` method.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    - BaseAgent: Abstract class defining the interface for all agents.</span>
+<span class="sd">    - ReasoningAgent: Performs logical reasoning and multi-step inference.</span>
+<span class="sd">    - RAGAgent: Uses vector databases and retrieval-augmented generation.</span>
+<span class="sd">    - Text2SQLAgent: Converts natural language into SQL and queries databases.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">ListIndex</span><span class="p">,</span> <span class="n">SimpleDirectoryReader</span><span class="p">,</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ollama</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.vector_stores.chroma</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChromaVectorStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageContext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.embeddings.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaEmbedding</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ollama.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOllama</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_numbered_questions</span>
+
+
+
+<div class="viewcode-block" id="BaseAgent">
+<a class="viewcode-back" href="../../../llm.agents.html#llm.agents.agent.BaseAgent">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseAgent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for agents.</span>
+
+<span class="sd">    Handles shared attributes like the model and prompt template, and enforces implementation of the `query` method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt_template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the agent with a prompt template and a model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt_template (str): The prompt template to use for queries.</span>
+<span class="sd">            model: A language model or callable chain for generating responses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">prompt_template</span>
+
+<div class="viewcode-block" id="BaseAgent.query">
+<a class="viewcode-back" href="../../../llm.agents.html#llm.agents.agent.BaseAgent.query">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract method to perform a query.</span>
+
+<span class="sd">        Must be implemented by subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses should implement this!&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseAgent.get_model">
+<a class="viewcode-back" href="../../../llm.agents.html#llm.agents.agent.BaseAgent.get_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the model associated with this agent.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span></div>
+
+
+<div class="viewcode-block" id="BaseAgent.get_template">
+<a class="viewcode-back" href="../../../llm.agents.html#llm.agents.agent.BaseAgent.get_template">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_template</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the prompt template used by this agent.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">template</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ReasoningAgent">
+<a class="viewcode-back" href="../../../llm.agents.html#llm.agents.agent.ReasoningAgent">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReasoningAgent</span><span class="p">(</span><span class="n">BaseAgent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Agent that performs logical reasoning and multi-step inference.</span>
+
+<span class="sd">    Extends BaseAgent and utilizes a LangChain-style pipeline to extract numbered responses.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the ReasoningAgent with a language model pipeline.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model: A callable LangChain model or chain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ReasoningAgent.query">
+<a class="viewcode-back" href="../../../llm.agents.html#llm.agents.agent.ReasoningAgent.query">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute a multi-step reasoning query.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The user input or problem to reason about.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list[str]: A list of extracted numbered answers or steps.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">chain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;query_str&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">})</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">content</span>
+        <span class="n">questions</span> <span class="o">=</span> <span class="n">extract_numbered_questions</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">questions</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RAGAgent">
+<a class="viewcode-back" href="../../../llm.agents.html#llm.agents.agent.RAGAgent">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RAGAgent</span><span class="p">(</span><span class="n">BaseAgent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieval-Augmented Generation agent.</span>
+
+<span class="sd">    Retrieves relevant context using vector embeddings and generates responses using a language model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Ollama</span><span class="p">,</span> <span class="n">vectors</span><span class="p">:</span> <span class="n">ChromaVectorStore</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the RAGAgent with a vector index, model, and vector store.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (VectorStoreIndex): The RAG index used to retrieve relevant chunks.</span>
+<span class="sd">            model (Ollama): The language model to synthesize responses.</span>
+<span class="sd">            vectors (ChromaVectorStore): Underlying vector store for context retrieval.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vectors</span> <span class="o">=</span> <span class="n">vectors</span>
+
+<div class="viewcode-block" id="RAGAgent.query">
+<a class="viewcode-back" href="../../../llm.agents.html#llm.agents.agent.RAGAgent.query">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Query the index and return a response based on retrieved context.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The user&#39;s query.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The model&#39;s synthesized response based on context.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Text2SQLAgent">
+<a class="viewcode-back" href="../../../llm.agents.html#llm.agents.agent.Text2SQLAgent">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Text2SQLAgent</span><span class="p">(</span><span class="n">BaseAgent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Agent that converts natural language into SQL queries.</span>
+
+<span class="sd">    Interfaces with a SQL engine to execute the queries and return results.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Ollama</span><span class="p">,</span> <span class="n">query_engine</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the Text2SQLAgent with a model and query execution engine.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (VectorStoreIndex): Placeholder for consistency; not currently used.</span>
+<span class="sd">            model (Ollama): Language model used to help generate SQL syntax.</span>
+<span class="sd">            query_engine: A database engine that can execute raw SQL strings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query_engine</span> <span class="o">=</span> <span class="n">query_engine</span>
+
+<div class="viewcode-block" id="Text2SQLAgent.query">
+<a class="viewcode-back" href="../../../llm.agents.html#llm.agents.agent.Text2SQLAgent.query">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a natural language query to SQL and execute it.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): Natural language query.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            result: Result from the executed SQL query.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sql_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nl_to_sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_nl_to_sql</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">natural_language</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Naive converter from natural language to SQL (stub).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            natural_language (str): The user&#39;s question.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A hardcoded SQL query string based on the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM data WHERE column = &#39;</span><span class="si">{</span><span class="n">natural_language</span><span class="si">}</span><span class="s2">&#39;&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Johns Hopkins University Sports Analytics Research Group.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
