@@ -1,3 +1,11 @@
+"""
+Provides utility functions to support text parsing, including logic to extract
+numbered questions from LLM responses.
+
+Functions:
+    - extract_numbered_questions: Extracts ordered question strings from a given text.
+"""
+
 import re
 from typing import List
 
@@ -5,12 +13,15 @@ def extract_numbered_questions(content: str, marker: str = "</think>") -> List[s
     """
     Extracts numbered questions from the given content after the specified marker.
 
-    Parameters:
-        content (str): The full text to parse.
-        marker (str): The marker after which to start extracting (default: "</think>").
+    Useful for parsing multi-step LLM responses that contain ordered steps or subqueries.
+
+    Args:
+        content (str): The complete string to extract questions from.
+        marker (str, optional): Substring indicating where to begin extraction.
+            Defaults to "</think>".
 
     Returns:
-        List[str]: A list of question strings in order.
+        List[str]: A list of cleaned, ordered question strings.
     """
     # Step 1: Extract text after the marker
     idx = content.find(marker)
@@ -22,6 +33,7 @@ def extract_numbered_questions(content: str, marker: str = "</think>") -> List[s
 
     # Step 3: Clean up whitespace and return
     return [q.strip() for q in raw_questions]
+
 
 # Example usage:
 # questions = extract_numbered_questions(result.content)
