@@ -7,16 +7,16 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>prompt module &mdash; Beyond the Field: Revolutionizing Football News Analytics with a Multi-Stage NLP Pipeline 4.24.2025 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=e59714d7" />
 
   
-      <script src="_static/jquery.js?v=5d32c60e"></script>
-      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=013bf35d"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/js/theme.js"></script>
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=013bf35d"></script>
+      <script src="static/doctools.js?v=9a2dae69"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="service module" href="service.html" />
@@ -100,7 +100,7 @@
           <li class="breadcrumb-item"><a href="modules.html">src</a></li>
       <li class="breadcrumb-item active">prompt module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/prompt.rst.txt" rel="nofollow"> View page source</a>
+            <a href="sources/prompt.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -124,24 +124,24 @@ retrieval-augmented generation, SQL query formulation, reasoning, and validation
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="llm.agents.prompt.BasePrompt">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">BasePrompt</span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#BasePrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.BasePrompt" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">BasePrompt</span></span><a class="reference internal" href="modules/llm/agents/prompt.html#BasePrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.BasePrompt" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstract base class for prompt construction and formatting.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="llm.agents.prompt.BasePrompt.get_template">
-<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#BasePrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.BasePrompt.get_template" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/llm/agents/prompt.html#BasePrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.BasePrompt.get_template" title="Link to this definition"></a></dt>
 <dd><p>Returns the base prompt string. Must be implemented by subclasses.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="llm.agents.prompt.BasePrompt.format">
-<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#BasePrompt.format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.BasePrompt.format" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="modules/llm/agents/prompt.html#BasePrompt.format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.BasePrompt.format" title="Link to this definition"></a></dt>
 <dd><p>Formats a query using the prompt template.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#BasePrompt.format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="modules/llm/agents/prompt.html#BasePrompt.format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd><p>Format the given query string using the prompt template.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -158,7 +158,7 @@ retrieval-augmented generation, SQL query formulation, reasoning, and validation
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#BasePrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="modules/llm/agents/prompt.html#BasePrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
 <dd><p>Returns the prompt template string.</p>
 </dd></dl>
 
@@ -166,13 +166,13 @@ retrieval-augmented generation, SQL query formulation, reasoning, and validation
 
 <dl class="py class">
 <dt class="sig sig-object py" id="llm.agents.prompt.RAGPrompt">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">RAGPrompt</span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#RAGPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.RAGPrompt" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">RAGPrompt</span></span><a class="reference internal" href="modules/llm/agents/prompt.html#RAGPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.RAGPrompt" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#llm.agents.prompt.BasePrompt" title="llm.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
 <p>Prompt class for retrieval-augmented generation (RAG).</p>
 <p>Adds contextual documents to the query for more grounded generation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="llm.agents.prompt.RAGPrompt.format_with_context">
-<span class="sig-name descname"><span class="pre">format_with_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context_docs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#RAGPrompt.format_with_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.RAGPrompt.format_with_context" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">format_with_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context_docs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="modules/llm/agents/prompt.html#RAGPrompt.format_with_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.RAGPrompt.format_with_context" title="Link to this definition"></a></dt>
 <dd><p>Format the prompt with both query and retrieved context.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -192,7 +192,7 @@ retrieval-augmented generation, SQL query formulation, reasoning, and validation
 
 <dl class="py method">
 <dt class="sig sig-object py" id="llm.agents.prompt.RAGPrompt.get_template">
-<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#RAGPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.RAGPrompt.get_template" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="modules/llm/agents/prompt.html#RAGPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.RAGPrompt.get_template" title="Link to this definition"></a></dt>
 <dd><p>Returns the prompt template string.</p>
 </dd></dl>
 
@@ -200,13 +200,13 @@ retrieval-augmented generation, SQL query formulation, reasoning, and validation
 
 <dl class="py class">
 <dt class="sig sig-object py" id="llm.agents.prompt.ReasoningPrompt">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">ReasoningPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">examples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#ReasoningPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ReasoningPrompt" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">ReasoningPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">examples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="modules/llm/agents/prompt.html#ReasoningPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ReasoningPrompt" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#llm.agents.prompt.BasePrompt" title="llm.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
 <p>Prompt class for structured reasoning using examples.</p>
 <p>Designed for multi-step inference and logical breakdown.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="llm.agents.prompt.ReasoningPrompt.format_with_examples">
-<span class="sig-name descname"><span class="pre">format_with_examples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#ReasoningPrompt.format_with_examples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ReasoningPrompt.format_with_examples" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">format_with_examples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="modules/llm/agents/prompt.html#ReasoningPrompt.format_with_examples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ReasoningPrompt.format_with_examples" title="Link to this definition"></a></dt>
 <dd><p>Format the query with step-by-step reasoning examples.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -223,7 +223,7 @@ retrieval-augmented generation, SQL query formulation, reasoning, and validation
 
 <dl class="py method">
 <dt class="sig sig-object py" id="llm.agents.prompt.ReasoningPrompt.get_template">
-<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#ReasoningPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ReasoningPrompt.get_template" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="modules/llm/agents/prompt.html#ReasoningPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ReasoningPrompt.get_template" title="Link to this definition"></a></dt>
 <dd><p>Returns the prompt template string.</p>
 </dd></dl>
 
@@ -231,13 +231,13 @@ retrieval-augmented generation, SQL query formulation, reasoning, and validation
 
 <dl class="py class">
 <dt class="sig sig-object py" id="llm.agents.prompt.Text2SQLPrompt">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">Text2SQLPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">examples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#Text2SQLPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.Text2SQLPrompt" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">Text2SQLPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">examples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="modules/llm/agents/prompt.html#Text2SQLPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.Text2SQLPrompt" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#llm.agents.prompt.BasePrompt" title="llm.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
 <p>Prompt class for natural language to SQL translation.</p>
 <p>Includes schema and example SQL conversions to guide generation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="llm.agents.prompt.Text2SQLPrompt.format_with_schema">
-<span class="sig-name descname"><span class="pre">format_with_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#Text2SQLPrompt.format_with_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.Text2SQLPrompt.format_with_schema" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">format_with_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="modules/llm/agents/prompt.html#Text2SQLPrompt.format_with_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.Text2SQLPrompt.format_with_schema" title="Link to this definition"></a></dt>
 <dd><p>Format the query with schema and examples included.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -254,7 +254,7 @@ retrieval-augmented generation, SQL query formulation, reasoning, and validation
 
 <dl class="py method">
 <dt class="sig sig-object py" id="llm.agents.prompt.Text2SQLPrompt.get_template">
-<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#Text2SQLPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.Text2SQLPrompt.get_template" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="modules/llm/agents/prompt.html#Text2SQLPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.Text2SQLPrompt.get_template" title="Link to this definition"></a></dt>
 <dd><p>Returns the prompt template string.</p>
 </dd></dl>
 
@@ -262,13 +262,13 @@ retrieval-augmented generation, SQL query formulation, reasoning, and validation
 
 <dl class="py class">
 <dt class="sig sig-object py" id="llm.agents.prompt.ValidationPrompt">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">ValidationPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#ValidationPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ValidationPrompt" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">llm.agents.prompt.</span></span><span class="sig-name descname"><span class="pre">ValidationPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="modules/llm/agents/prompt.html#ValidationPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ValidationPrompt" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#llm.agents.prompt.BasePrompt" title="llm.agents.prompt.BasePrompt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePrompt</span></code></a></p>
 <p>Prompt class for validating responses based on rule compliance.</p>
 <p>Ensures responses meet criteria for accuracy and format.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="llm.agents.prompt.ValidationPrompt.format_with_rules">
-<span class="sig-name descname"><span class="pre">format_with_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/llm/agents/prompt.html#ValidationPrompt.format_with_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ValidationPrompt.format_with_rules" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">format_with_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="modules/llm/agents/prompt.html#ValidationPrompt.format_with_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ValidationPrompt.format_with_rules" title="Link to this definition"></a></dt>
 <dd><p>Format the prompt with validation rules and a user response.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -285,7 +285,7 @@ retrieval-augmented generation, SQL query formulation, reasoning, and validation
 
 <dl class="py method">
 <dt class="sig sig-object py" id="llm.agents.prompt.ValidationPrompt.get_template">
-<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/llm/agents/prompt.html#ValidationPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ValidationPrompt.get_template" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="modules/llm/agents/prompt.html#ValidationPrompt.get_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#llm.agents.prompt.ValidationPrompt.get_template" title="Link to this definition"></a></dt>
 <dd><p>Returns the prompt template string.</p>
 </dd></dl>
 
